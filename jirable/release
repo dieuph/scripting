@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# https://node-minify.2clics.net/getting-started.html
+
+node-minify --compressor babel-minify --input 'jirable.js' --output 'jirable.min.js'
+node-minify --compressor clean-css --input 'jirable.css' --output 'jirable.min.css'

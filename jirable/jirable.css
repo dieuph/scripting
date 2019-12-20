@@ -1,0 +1,151 @@
+@media print {
+    @page {
+        size: auto;
+        size: A4 portrait;
+        margin: 0;
+        border: 1px solid red;
+    }
+    html, body {
+        width: 210mm;
+        height: 297mm;
+    }
+    .container {
+        margin: 5px 0px 0px 5px;
+        padding: 0px 0px 0px 0px;
+    }
+    .v-content {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+    .issues {
+        width: auto;
+    }
+    .issues .issue {
+        page-break-inside: avoid;
+    }
+    .issues .issue-footer .badge {
+        color: black;
+        width: auto;
+        height: auto;
+    }
+    .print-media {
+        display: none;
+        width: 0px;
+        padding: 0px;
+    }
+    .content {
+        padding: 0 !important;
+    }
+}
+.no-padding {
+    padding: 0 !important;
+}
+.sub-panel {
+    margin: 0px 0px 0px 15px;
+}
+.issues.issue-square {
+    width: 800px;
+    height: 3px;
+    margin: 0 auto;
+}
+.issues.issue-rectangle {
+    width: 800px;
+    height: 3px;
+    margin: 0 auto;
+}
+.issues .issue.issue-square {
+    width: 263px;
+    height: 280px;
+    margin: 0px 3px 3px 0px;
+}
+.issues .issue.issue-rectangle {
+    width: 396px;
+    height: 280px;
+    margin: 0px 3px 3px 0px;
+}
+.issues {
+    margin: auto;
+}
+.issues .end {
+    position: absolute;
+    right: 0;
+}
+.issues .issue {
+    border: 1px solid grey;
+    padding: 18px;
+    float: left;
+    position: relative;
+}
+.issues .issue-content {
+    height: 100%;
+    position: relative;
+}
+.issues .issue-header {
+    height: 24px;
+}
+.issues .issue-header .index {
+    top: 0;
+    text-align: center;
+    border: 1px solid gray;
+    width: 1.5em;
+    height: 1.5em;
+}
+.issues .issue-header-id {
+    color: gray;
+}
+.issues .issue-summary {
+    padding-top: 20px;
+    word-break: break-word;
+}
+.issues .issue-summary .summary {
+    line-height: 1.5em !important;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.issues .issue-goal {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+.issues .issue-goal img {
+    height: 45px;
+    width: 45px;
+}
+.issues .issue-status {
+    float: right;
+    margin: 20% 0px 0px 0px;
+}
+.issues .issue-status .status {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    border: 1px solid black;
+    padding: 5px 0px 5px 0px;
+    font-weight: bold;
+    font-size: 1.15em;
+    text-transform: uppercase;
+}
+.issues .issue-footer {
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+}
+.issues .issue-footer > :first-child {
+    float: left;
+}
+.issues .issue-footer > :nth-child(2) {
+    float: left;
+    margin-left: 5px;
+}
+.issues .issue-footer .badge {
+    background: white;
+    color: black;
+    border-radius: 50%;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    border: 1px solid black;
+    margin: 0px 5px 5px 0px;
+    display: inline-block;
+    vertical-align: middle;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@1.5.14/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://raw.githack.com/dieuph/jirable/master/jirable.min.css" type="text/css" rel="stylesheet">
+    <title>jirable</title>
+</head>
+<body>
+    <div id="app">
+        <v-app white>
+            <v-content>
+                <v-container>
+                    <configuration v-bind:application="configuration.application" v-bind:settings="configuration.settings" v-bind:design="configuration.design">
+                    </configuration>
+                    <issues v-bind:issues="issues" v-bind:configuration="configuration" v-bind:error="error">
+                    </issues>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@1.5.14/dist/vuetify.min.js"></script>
+    <script src="https://raw.githack.com/dieuph/jirable/master/jirable.min.js"></script>
+</body>
+</html>
