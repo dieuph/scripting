@@ -5,9 +5,9 @@
 // @author              dieu
 // @license             MIT; https://opensource.org/licenses/MIT
 // @homepageURL         https://github.com/dieuph
-// @downloadURL         https://github.com/dieuph/finformatic/raw/master/finformatic.user.js
-// @updateURL           https://github.com/dieuph/finformatic/raw/master/finformatic.meta.js
-// @supportURL          https://github.com/dieuph/finformatic/issues
+// @downloadURL         https://github.com/dieuph/scripting/raw/master/scripting/finformatic.user.js
+// @updateURL           https://github.com/dieuph/scripting/raw/master/scripting/finformatic.meta.js
+// @supportURL          https://github.com/dieuph/scripting/issues
 // @copyright           2019, dieu (https://github.com/dieuph)
 // @include             /^http.?://.*localhost:\d{4}/ivy.*$/
 // @include             /^http.?://.*\d{3}.\d{3}.\d{1}.\d{2}:\d{4}/ivy.*$/
