@@ -4,8 +4,8 @@
 // @description         axon
 // @author              dieu
 // @license             MIT; https://opensource.org/licenses/MIT
-// @downloadURL         https://github.com/dieuph/scripting/aa/raw/master/aa.user.js
-// @updateURL           https://github.com/dieuph/scripting/aa/raw/master/aa.meta.js
+// @downloadURL         https://github.com/dieuph/scripting/raw/master/aa/aa.user.js
+// @updateURL           https://github.com/dieuph/scripting/raw/master/aa/aa.meta.js
 // @supportURL          https://github.com/dieuph/scripting/issues
 // @homepageURL         https://github.com/dieuph
 // @copyright           2019, dieu (https://github.com/dieuph)
