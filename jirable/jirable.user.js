@@ -14,7 +14,7 @@
 // @require         https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.16.0/polyfill.js
 // @require         https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js
 // @require         https://unpkg.com/axios/dist/axios.min.js
-// @version         1.0
+// @version         1.1
 // ==/UserScript==
 
 eval(Babel.transform((<><![CDATA[
@@ -48,7 +48,7 @@ eval(Babel.transform((<><![CDATA[
         }).then(function(result) {
             axios({
                 method: 'get',
-                url: 'https://raw.githubusercontent.com/dieuph/jirable/master/print.html'
+                url: 'https://raw.githubusercontent.com/dieuph/scripting/master/jirable/print.html'
             }).then(function(template) {
                 var win = window.open("", "_blank");
                 win.data = result.data;
