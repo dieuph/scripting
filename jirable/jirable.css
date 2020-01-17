@@ -84,17 +84,19 @@
     height: 24px;
 }
 .issues .issue-header .index {
+    display: inline-block;
     top: 0;
     text-align: center;
     border: 1px solid gray;
     width: 1.5em;
     height: 1.5em;
+    margin: 0em 0.3em 0em 0em;
 }
 .issues .issue-header-id {
     color: gray;
 }
 .issues .issue-summary {
-    padding-top: 20px;
+    padding-top: 1em;
     word-break: break-word;
 }
 .issues .issue-summary .summary {
@@ -108,8 +110,8 @@
     right: 0px;
 }
 .issues .issue-goal img {
-    height: 45px;
-    width: 45px;
+    height: 3.3em;
+    width: 3.3em;
 }
 .issues .issue-status {
     float: right;
@@ -125,10 +127,10 @@
     text-transform: uppercase;
 }
 .issues .issue-footer {
-    height: 50px;
+    height: 3.3em;
     position: absolute;
     bottom: 0;
-    width: 80%;
+    width: 19em;
 }
 .issues .issue-footer > :first-child {
     float: left;
@@ -141,8 +143,8 @@
     background: white;
     color: black;
     border-radius: 50%;
-    width: 21px;
-    height: 21px;
+    width: 1.5em;
+    height: 1.5em;
     text-align: center;
     border: 1px solid black;
     margin: 0px 5px 5px 0px;

@@ -21,23 +21,64 @@ Vue.component('configuration', {
     template:
     `
     <v-navigation-drawer fixed clipped class="print-media">
-        <v-toolbar flat>
-            <v-list>
-                <v-list-tile>
-                    <v-list-tile-title class="title">
-                    {{ application }}
-                    </v-list-tile-title>
-                </v-list-tile>
-            </v-list>
+        <v-toolbar flat dense short>
+            {{ application }}
         </v-toolbar>
         <v-divider></v-divider>
         <v-subheader>SETTINGS</v-subheader>
         <v-form class="sub-panel settings">
             <v-layout>
                 <v-flex md11>
-                    <v-select outline :items="settings.types" label="Type" v-model="settings.type" v-on:change="onChangeType"></v-select>
-                    <v-text-field outline label="Excludes" clearable v-model="settings.excludes" v-on:change="onChangeExcludes" v-on:click:clear="onClearExcludes" placeholder="Summary or ID"></v-text-field>
-                    <v-text-field outline label="Sprint Goal" clearable v-model="settings.goals" v-on:change="onChangeGoals" v-on:blur="onChangeGoals" v-on:click:clear="onClearGoals" placeholder="ID"></v-text-field>
+                    <v-select outlined single-line clearable dense
+                        label="Type"
+                        :items="settings.types"
+                        v-model="settings.type"
+                        v-on:change="onChangeType"
+                        v-on:click:clear="onClearType">
+                    </v-select>
+                    <v-text-field outlined single-line clearable dense v-show="isDisplayIncludes()"
+                        label="Includes"
+                        v-model="settings.includes"
+                        v-on:change="onChangeIncludes"
+                        v-on:click:clear="onClearIncludes">
+                        <template v-slot:append>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{on}">
+                                    <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                                </template>
+                                Fill id, separate by comma.
+                            </v-tooltip>
+                        </template>
+                    </v-text-field>
+                    <v-text-field outlined single-line clearable dense
+                        label="Excludes"
+                        v-model="settings.excludes"
+                        v-on:change="onChangeExcludes"
+                        v-on:click:clear="onClearExcludes">
+                        <template v-slot:append>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{on}">
+                                    <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                                </template>
+                                Fill summary text or id, separate by comma.
+                            </v-tooltip>
+                        </template>
+                    </v-text-field>
+                    <v-text-field outlined single-line clearable dense
+                        label="Sprint Goal"
+                        v-model="settings.goals"
+                        v-on:change="onChangeGoals" 
+                        v-on:blur="onChangeGoals"
+                        v-on:click:clear="onClearGoals">
+                        <template v-slot:append>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{on}">
+                                    <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                                </template>
+                                Fill id, separate by comma.
+                            </v-tooltip>
+                        </template>
+                    </v-text-field>
                 </v-flex>
             </v-layout>
         </v-form>
@@ -47,8 +88,12 @@ Vue.component('configuration', {
             <v-layout>
                 <v-flex md11>
                     <v-checkbox label="Ordering" color="primary" v-model="design.ordering"></v-checkbox>
-                    <v-select outline v-model="design.badge" :items="['Dots', 'Point']" label="Badge Options"/>
-                    <v-checkbox label="Show status" color="primary" v-model="design.status"></v-checkbox>
+                    <v-checkbox label="Task status" color="primary" v-model="design.status"></v-checkbox>
+                    <v-select outlined single-line clearable dense
+                        label="Badge Options"
+                        v-model="design.badge"
+                        :items="['Dots', 'Point']">
+                    </v-select>
                 </v-flex>
             </v-layout>
         </v-form>
@@ -56,23 +101,36 @@ Vue.component('configuration', {
     </v-navigation-drawer>
     `,
      methods: {
-        containsAny(prohibited, value) {
-            return prohibited.every(function(v) {
-                return value.indexOf(v) == -1;
+        containsAny(list, text) {
+            text = text ? text.trim().toLowerCase() : '';
+            let contains = list.filter((value, index) => {
+                return text.indexOf(value.trim().toLowerCase()) != -1;
             });
+            return contains.length != 0;
         },
         getIssues() {
-            if (this.settings.type == '') {
+            if (this.settings.type == undefined || this.settings.type == '') {
                 return [];
             }
-            return this.isSubTask() ? tasks : stories;
+            if (this.isSubTask()) {
+                return tasks;
+            }
+            if (this.isStory()) {
+                return stories;
+            }
+            if (this.isStandalone()) {
+                return [];
+            }
+            return [];
         },
         isSubTask() {
-            let type = this.settings.type;
-            return type == 'Sub-Task';
+            return this.settings.type && this.settings.type == 'Sub-Task';
         },
         isStory() {
-            return !this.isSubTask();
+            return this.settings.type && this.settings.type == 'Story';
+        },
+        isStandalone() {
+            return this.settings.type && this.settings.type == 'Standalone';
         },
         extractToArray(value) {
             if (value == '' || value == null) {
@@ -86,15 +144,48 @@ Vue.component('configuration', {
                 return item != "";
             });
         },
+        getIncludes() {
+            return this.extractToArray(this.settings.includes);
+        },
         getExcludes() {
             return this.extractToArray(this.settings.excludes);
         },
         getGoals() {
             return this.extractToArray(this.settings.goals);
         },
+        isDisplayIncludes() {
+            return this.isStandalone();
+        },
+        isDisplayGoals() {
+            return this.isStory();
+        },
         onChangeType() {
             vm.issues = this.getIssues();
             this.onChangeExcludes();
+        },
+        onClearType() {
+            this.settings.type = undefined;
+            this.settings.excludes = undefined;
+            this.settings.goals = undefined;
+        },
+        onChangeIncludes() {
+            let includes = this.getIncludes();
+            if (includes.length == 0) {
+                this.onClearIncludes();
+                return;
+            }
+            let updatedStories = stories.map((story) => {
+                story.active = !this.containsAny(includes, story.key);
+                return story;
+            });
+            let updatedTasks = tasks.map((task) => {
+                task.active = !this.containsAny(includes, task.parent);
+                return task;
+            });
+            vm.issues = updatedStories.concat(updatedTasks);
+        },
+        onClearIncludes() {
+
         },
         onChangeExcludes() {
             let issues = this.getIssues();
@@ -103,8 +194,14 @@ Vue.component('configuration', {
                 this.onClearExcludes();
                 return;
             }
-            vm.issues = this.getIssues().map((issue) => {
-                issue.active = this.containsAny(excludes, issue.fields.summary);
+            vm.issues = vm.issues.map((issue) => {
+                if (this.isStandalone()) {
+                    if (issue.active == true) {
+                        issue.active = this.containsAny(excludes, issue.fields.summary);
+                    }
+                } else {
+                    issue.active = !this.containsAny(excludes, issue.fields.summary) && !this.containsAny(excludes, issue.key);
+                }
                 return issue;
             });
         },
@@ -119,8 +216,10 @@ Vue.component('configuration', {
             });
             if (this.isStory()) {
                 vm.issues = updatedStories;
-            } else {
+            } else if (this.isSubTask()) {
                 vm.issues = updatedTask;
+            } else {
+                vm.issues = [];
             }
         },
         onChangeGoals() {
@@ -130,7 +229,7 @@ Vue.component('configuration', {
                 return;
             }
             let updatedStories = stories.map((story) => {
-                story.goal = !this.containsAny(goals, story.key);
+                story.goal = this.containsAny(goals, story.fields.summary) || this.containsAny(goals, story.key);
                 return story;
             });
             if (this.isStory()) {
@@ -182,10 +281,10 @@ Vue.component('issue', {
     <div v-if="issue.active" class="issue" :class="type">
         <div class="issue-content">
             <div class="issue-header">
-                <div class="issue-key">
-                    <b v-if="parent">{{ issue.parent }}/</b><span>{{ issue.key }}</span>
-                </div>
-                <span v-if="configuration.design.ordering" class="index end">{{ issue.index }}</span>
+                <span v-if="configuration.design.ordering" class="index">{{ issue.index }}</span>
+                <span v-if="parent" class="font-weight-bold">{{issue.parent}}</span>
+                <span v-if="parent">/</span>
+                <span v-bind:class="[parent ? '' : 'font-weight-bold']">{{issue.key}}</span>
             </div>
             <div v-if="task && configuration.design.status" class="issue-status">
                 <span class="status">suspended</span>
@@ -194,7 +293,7 @@ Vue.component('issue', {
                 <div class="summary">{{ issue.fields.summary.length < 100 ? issue.fields.summary : issue.fields.summary.substring(0, 100) + "..." }}</div>
             </div>
             <div v-if="issue.goal" class="issue-goal">
-                <img src="https://cdn2.iconfinder.com/data/icons/carnival-4/48/75-512.png" />
+                <img src="https://cdn4.iconfinder.com/data/icons/thin-seo-marketing/24/thin-1540_target_goal_growth_success-512.png" />
             </div>
             <div class="issue-footer">
                 <span
@@ -235,6 +334,7 @@ Vue.component('issue', {
 
 var vm = new Vue({
     el: '#app',
+    vuetify: new Vuetify(),
     data: {
         issues: [],
         configuration: {
@@ -242,13 +342,14 @@ var vm = new Vue({
             settings: {
                 types: ['Story', 'Sub-Task'],
                 type: '',
-                excludes: ''
+                excludes: '',
+                includes: '',
+                goals: ''
             },
             design: {
                 ordering: true,
                 badge: 'Dots',
-                status: true,
-                goals: ''
+                status: true
             }
         },
         error: data.error || false
