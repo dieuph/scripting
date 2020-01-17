@@ -88,9 +88,10 @@ eval(Babel.transform((<><![CDATA[
                     method: 'get',
                     url: 'https://raw.githubusercontent.com/dieuph/scripting/master/jirable/print.html'
                 }).then(function(template) {
-                    var win = window.open("", "_blank");
+                    var win = window.open("Jirable", "_blank");
                     win.data = result.data;
                     win.document.write(template.data);
+                    win.document.close();
                 });
             });
         }
