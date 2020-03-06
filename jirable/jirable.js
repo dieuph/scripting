@@ -98,6 +98,9 @@ Vue.component('configuration', {
             </v-layout>
         </v-form>
         <v-divider></v-divider>
+        <v-btn id="print" class="ma-4" tile color="primary" v-on:click="onClickPrint">
+          <v-icon left>mdi-printer</v-icon> Print
+        </v-btn>
     </v-navigation-drawer>
     `,
      methods: {
@@ -244,6 +247,9 @@ Vue.component('configuration', {
             if (this.isStory()) {
                 vm.issues = updatedStories;
             }
+        },
+        onClickPrint() {
+            window.print()
         }
     }
 });
@@ -253,7 +259,7 @@ Vue.component('issues', {
     template:
     `
     <v-content v-if="error" class="no-padding">
-        <v-alert :value="true" type="warning">Something errors</v-alert>
+        <v-alert :value="true" type="warning">Something wrong!</v-alert>
     </v-content>
     <v-content v-else class="no-padding">
         <div class="issues" :class="wrapper">
@@ -293,9 +299,9 @@ Vue.component('issue', {
                 <div class="summary">{{ issue.fields.summary.length < 100 ? issue.fields.summary : issue.fields.summary.substring(0, 100) + "..." }}</div>
             </div>
             <div v-if="issue.goal" class="issue-goal">
-                <img src="https://cdn4.iconfinder.com/data/icons/thin-seo-marketing/24/thin-1540_target_goal_growth_success-512.png" />
+                <img src="https://raw.githack.com/dieuph/scripting/master/jirable/goal.png" />
             </div>
-            <div class="issue-footer">
+            <div class="issue-footer" v-if="story">
                 <span
                     v-if="story && configuration.design.badge =='Point'"
                     class="badge">
