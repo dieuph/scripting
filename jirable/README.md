@@ -20,12 +20,11 @@ FireFox:
 
 Step 2: Click on user script to install
 
-https://github.com/dieuph/jirable/raw/master/jirable.user.js
+https://github.com/dieuph/scripting/raw/master/jirable/jirable.user.js
 
 
 ### How to use
 Once the tool is installed, you able to see an additional button named "Print", just click and rock it.
-![img](https://raw.githubusercontent.com/dieuph/jirable/master/how-to.png)
 
 ------
 
