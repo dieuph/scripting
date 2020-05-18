@@ -60,7 +60,7 @@ Vue.component('configuration', {
                                 <template v-slot:activator="{on}">
                                     <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                                 </template>
-                                Fill summary text or id, separate by comma.
+                                Fill in summary text, status or id, separate by comma.
                             </v-tooltip>
                         </template>
                     </v-text-field>
@@ -98,9 +98,16 @@ Vue.component('configuration', {
             </v-layout>
         </v-form>
         <v-divider></v-divider>
-        <v-btn id="print" class="ma-4" tile color="primary" v-on:click="onClickPrint">
-          <v-icon left>mdi-printer</v-icon> Print
-        </v-btn>
+        <v-form class="sub-panel card-design">
+            <v-layout>
+                <v-flex md11>
+                    <v-text-field disabled v-model="design.tapes + ' tapes'" />
+                    <v-btn id="print" tile color="primary" v-on:click="onClickPrint">
+                      <v-icon left>mdi-printer</v-icon> Print
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-form>
     </v-navigation-drawer>
     `,
      methods: {
@@ -203,7 +210,9 @@ Vue.component('configuration', {
                         issue.active = this.containsAny(excludes, issue.fields.summary);
                     }
                 } else {
-                    issue.active = !this.containsAny(excludes, issue.fields.summary) && !this.containsAny(excludes, issue.key);
+                    issue.active = !this.containsAny(excludes, issue.fields.summary)
+                                && !this.containsAny(excludes, issue.key)
+                                && !this.containsAny(excludes, issue.fields.status.name);
                 }
                 return issue;
             });
@@ -355,9 +364,29 @@ var vm = new Vue({
             design: {
                 ordering: true,
                 badge: 'Dots',
-                status: true
+                status: true,
+                tapes: 0
             }
         },
         error: data.error || false
     }
 });
+
+var afterPrint = function() {
+    let printed = vm.issues.filter((value, index) => {
+        return value.active == true;
+    });
+    vm.configuration.design.tapes += printed.length;
+
+};
+
+if (window.matchMedia) {
+    var mediaQueryList = window.matchMedia('print');
+    mediaQueryList.addListener(function(mql) {
+        if (!mql.matches) {
+            // suprised
+        }
+    });
+}
+
+window.onafterprint = afterPrint;
