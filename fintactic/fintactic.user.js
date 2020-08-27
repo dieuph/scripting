@@ -11,7 +11,7 @@
 // @copyright       2020, dieu (https://github.com/dieuph)
 // @include         /^http.?://.*jira\..*\.com/jira/.*$/
 // @include         /^http.?://.*bitbucket\.org/.*$/
-// @version         0.1
+// @version         0.2
 // ==/UserScript==
 
 console.log('FINTACTIC');
@@ -41,20 +41,17 @@ const fragments = {
                         <table class="aui">
                             <thead>
                                 <tr>
-                                    <th id="apr-repository">Repository</th>
+                                    <th id="apr-select">Select</th>
                                     <th id="apr-branch">Branch</th>
-                                    <th id="apr-target">Target</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
-                                ${this.data.records.map(function (record) {
+                                ${this.data.records.map((record) => {
                                     return `<tr>
-                                                <td headers="apr-repository">
+                                                <td headers="apr-select">
                                                     <div>
-                                                        <span class="aui-avatar aui-avatar-small aui-avatar-project default-avatar-project">
-                                                            <span class="aui-avatar-inner aui-icon aui-icon-small aui-iconfont-devtools-repository"></span>
-                                                        </span>
-                                                        <a class="repository-link" href="${record.repository.url}" title="${record.repository.name}">${record.repository.name}</a>
+                                                        <span><input class="checkbox" type="checkbox" name="${record.name}" id="${record.name}"></span>
                                                     </div>
                                                 </td>
                                                 <td headers="apr-branch">
@@ -63,11 +60,7 @@ const fragments = {
                                                         <a class="branch-link" href="${record.url}" title="${record.name}">${record.name}</a>
                                                     </div>
                                                 </td>
-                                                <td headers="apr-target">
-                                                    <div>
-                                                        <span>master</span>
-                                                    </div>
-                                                </td>
+                                                
                                             </tr>`;
                                 }).join("")}
                             </tbody>
@@ -87,7 +80,8 @@ const fragments = {
 };
 
 const url = {
-    detail: `https://jira.axonivy.com/jira/rest/dev-status/1.0/issue/detail?issueId=0&applicationType=bitbucket&dataType=pullrequest`
+    detail: `https://jira.axonivy.com/jira/rest/dev-status/1.0/issue/detail?issueId=0&applicationType=bitbucket&dataType=pullrequest`,
+    build: `https://build.axonivy.io/view/FINFORM/job/FINFORM_DESK/job/Auto_Create_PR/buildWithParameters?token=B3CKtKCBr8N3rYOg6QrK6Iup6QWNQ8A6&FEATURE_BRANCH=&BUILD_NODE=ecscob&SONAR_JOB=6&CHECK_SONAR=true&CREATE_PULL_REQUEST=true&STORY_ID=`
 };
 
 function query() {
@@ -108,44 +102,64 @@ function query() {
 
     $('#devstatus-container').ready(() => {
         var issueId = AJS.$('#key-val').attr('rel');
-        if (issueId) {
-            var href = new URL(url.detail);
-            href.searchParams.set('issueId', issueId);
-            
-            AJS.$.ajax({
-                url: href.href
-            }).done((data) => {
-                if (data.detail[0].branches.length > 0) {
-                    AJS.$('#devstatus-container').append(fragments.buttons.pr);
-
-                    AJS.$('#pull-request-link').on('click', () => {
-                        AJS.$('#apr-dialog').remove();
-                        
-                        var pullRequests = data.detail[0].pullRequests.map((pullRequest) => {
-                            let repository = new URL(pullRequest.url).pathname.split('/')[2];
-                            return {
-                                repository: repository,
-                                source: pullRequest.source.branch,
-                                destination: pullRequest.destination.branch,
-                                status: pullRequest.status,
-                                url: pullRequest.url
-                            }
-                        });
-                        console.log(pullRequests)
-                        
-                        var template = fragments.dialog.pr;
-                        template.data.records = data.detail[0].branches.filter((branch) => {
-                            
-                        });
-                        
-                        AJS.$('body').append(template.html);
-                        AJS.dialog2("#apr-dialog").show();
-                        AJS.$('#create-apr').on('click', () => { AJS.dialog2("#apr-dialog").hide(); });
-                        AJS.$('#close-apr').on('click', () => { AJS.dialog2("#apr-dialog").hide(); });
-                    });
-                }
-            });
-            
+        if (!issueId) {
+            return;
         }
+        
+        var href = new URL(url.detail);
+        href.searchParams.set('issueId', issueId);
+
+        AJS.$.ajax({
+            url: href.href
+        }).done((data) => {
+            console.log(data)
+            if (data.detail[0].branches.length > 0) {
+                AJS.$('#devstatus-container').append(fragments.buttons.pr);
+
+                AJS.$('#pull-request-link').on('click', () => {
+                    AJS.$('#apr-dialog').remove();
+
+                    var pullRequests = data.detail[0].pullRequests.map((pullRequest) => {
+                        let repository = new URL(pullRequest.url).pathname.split('/')[2];
+                        return {
+                            repository: repository,
+                            source: pullRequest.source.branch,
+                            destination: pullRequest.destination.branch,
+                            status: pullRequest.status,
+                            url: pullRequest.url
+                        }
+                    });
+
+                    var template = fragments.dialog.pr;
+                    var branches = new Map();
+                    data.detail[0].branches.forEach((branch) => {
+                        if (!branches.has(branch.name)) {
+                            branches.set(branch.name, branch.url);
+                        }
+                    });
+                    var records = [];
+                    for (var branch of branches) {
+                        records.push({
+                            name: branch[0],
+                            url: branch[1]
+                        });
+                    }
+                    
+                    template.data.records = records;
+
+                    AJS.$('body').append(template.html);
+                    AJS.dialog2("#apr-dialog").show();
+                    AJS.$('#create-apr').on('click', () => {
+                        var href = new URL(url.build);
+                        href.searchParams.set('FEATURE_BRANCH', $($('td[headers="apr-select"] input::checked')[0]).attr('name'));
+                        href.searchParams.set('STORY_ID', issueId);
+                        AJS.$.ajax({url: href.href});
+                        
+                        AJS.dialog2("#apr-dialog").hide();
+                    });
+                    AJS.$('#close-apr').on('click', () => { AJS.dialog2("#apr-dialog").hide(); });
+                });
+            }
+        });
     });
 })();
