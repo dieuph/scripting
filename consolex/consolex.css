@@ -1,0 +1,266 @@
+/**************************
+ Flyout
+ **************************/
+.flyout {
+    font-family: 'Open Sans', sans-serif;
+    z-index: 999999;
+}
+.flyout .vis-hide {
+    overflow: hidden;
+    position: absolute;
+    margin: -1px;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+}
+.flyout .panel-flyout {
+    position: fixed;
+    bottom: 0;
+    z-index: 300;
+    width: 220px;
+    height: 100%;
+    color: #fff;
+    background-color: #000;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: all, 0.3s, ease-in;
+    -webkit-box-shadow: -1px 0px 11px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -1px 0px 11px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: -1px 0px 11px -1px rgba(0, 0, 0, 0.75);
+}
+.flyout .panel-flyout-right {
+    right: -320px;
+}
+.flyout .panel-flyout-right.panel-open {
+    right: 0;
+}
+.flyout .panel-flyout-inner {
+    padding: 4em 1em 0;
+    bottom: 45px;
+    position: fixed;
+}
+.flyout .button-toggle {
+    z-index: 400;
+    width: 32px;
+    height: 32px;
+    background-color: #000;
+    border: none;
+    overflow: hidden;
+    position: fixed;
+    opacity: 1;
+    right: 10px;
+    bottom: 10px;
+}
+.flyout .button-toggle .line {
+    position: absolute;
+    top: 0;
+    left: 7px;
+    width: 18px;
+    height: 2px;
+    background: #fff;
+    transition: all 0.3s ease-out;
+}
+.flyout .button-toggle .line:first-child {
+    top: 10px;
+}
+.flyout .button-toggle .line:nth-child(2) {
+    top: 15px;
+}
+.flyout .button-toggle .line:nth-child(3) {
+    top: 20px;
+}
+.flyout .button-toggle.toggle-open {
+    outline: none;
+}
+.flyout .button-toggle.toggle-open .line:first-child {
+    width: 11px;
+    left: 5px;
+    -webkit-transform: translate(1px, 2px) rotate(-45deg);
+    transform: translate(1px, 2px) rotate(-45deg);
+}
+.flyout .button-toggle.toggle-open .line:nth-child(2) {
+    margin-right: 3.5px;
+    width: 13px;
+}
+.flyout .button-toggle.toggle-open .line:nth-child(3) {
+    width: 11px;
+    left: 5px;
+    -webkit-transform: translate(1px, -2px) rotate(45deg);
+    transform: translate(1px, -2px) rotate(45deg);
+}
+.flyout .button-container {
+    height: 45px;
+    width: 200px;
+    margin: 5px 0px 0px -16px;
+}
+.flyout .button {
+    display: block;
+    line-height: 40px;
+    height: 40px;
+    width: 200px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #000;
+    font-size: 14px;
+    text-align: center;
+}
+.flyout .button:after {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    background: #3bade3;
+    background: linear-gradient(45deg, #3bade3 0%, #576fe6 25%, #9844b7 51%, #ff357f 100%);
+    height: 50px;
+    width: 372px;
+    z-index: -1;
+    -webkit-transform: translateX(-280px);
+            transform: translateX(-280px);
+    transition: -webkit-transform 400ms ease-in;
+    transition: transform 400ms ease-in;
+    transition: transform 400ms ease-in, -webkit-transform 400ms ease-in;
+}
+.flyout .button:hover:after {
+    -webkit-transform: translateX(-200px);
+        transform: translateX(-200px);
+}
+
+/**************************
+ Basic Modal Styles
+ **************************/
+.modal {
+    font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+}
+.modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 500;
+}
+.modal__container {
+    background-color: #fff;
+    padding: 30px;
+    max-width: 500px;
+    max-height: 100vh;
+    border-radius: 4px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal__title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 600;
+    /*font-size: 1.25rem;*/
+    line-height: 1.25;
+    color: #00449e;
+    box-sizing: border-box;
+}
+.modal__close {
+    background: transparent;
+    border: 0;
+}
+.modal__header .modal__close:before { content: "\2715"; }
+.modal__content {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    color: rgba(0,0,0,.8);
+}
+.modal__content code {
+	padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+.modal__btn {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    background-color: #e6e6e6;
+    color: rgba(0,0,0,.8);
+    border-radius: .25rem;
+    border-style: none;
+    border-width: 0;
+    cursor: pointer;
+    -webkit-appearance: button;
+    text-transform: none;
+    overflow: visible;
+    line-height: 1.15;
+    margin: 0;
+    will-change: transform;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    transition: -webkit-transform .25s ease-out;
+    transition: transform .25s ease-out;
+    transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+}
+.modal__btn:focus, .modal__btn:hover {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+.modal__btn-primary {
+    background-color: #00449e;
+    color: #fff;
+}
+
+/**************************
+ Demo Animation Style
+ **************************/
+@keyframes mmfadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes mmfadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@keyframes mmslideIn {
+    from { transform: translateY(15%); }
+    to { transform: translateY(0); }
+}
+@keyframes mmslideOut {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10%); }
+}
+.micromodal-slide {
+    display: none;
+}
+.micromodal-slide.is-open {
+    display: block;
+}
+.micromodal-slide[aria-hidden="false"] .modal__overlay {
+    animation: mmfadeIn .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+.micromodal-slide[aria-hidden="false"] .modal__container {
+    animation: mmslideIn .3s cubic-bezier(0, 0, .2, 1);
+}
+.micromodal-slide[aria-hidden="true"] .modal__overlay {
+    animation: mmfadeOut .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+.micromodal-slide[aria-hidden="true"] .modal__container {
+    animation: mmslideOut .3s cubic-bezier(0, 0, .2, 1);
+}
+.micromodal-slide .modal__container,
+.micromodal-slide .modal__overlay {
+    will-change: transform;
+}
