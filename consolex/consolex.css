@@ -15,10 +15,8 @@
     border: 0;
     clip: rect(0 0 0 0);
 }
-#panelFlyout {
-    z-index: 999999;
-}
 .flyout .panel-flyout {
+    z-index: 999999;
     position: fixed;
     bottom: 0;
     width: 220px;
@@ -44,7 +42,7 @@
     position: fixed;
 }
 .flyout .button-toggle {
-    z-index: inherit;
+    z-index: 999999;
     width: 32px;
     height: 32px;
     background-color: #000;
@@ -110,7 +108,7 @@
     color: #000;
     font-size: 14px;
     text-align: center;
-    z-index: inherit;
+    z-index: 999999;
 }
 .flyout .button:after {
     position: absolute;
@@ -148,7 +146,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: inherit;
+    z-index: 999999;
 }
 .modal__container {
     background-color: #fff;
