@@ -3,7 +3,6 @@
  **************************/
 .flyout {
     font-family: 'Open Sans', sans-serif;
-    z-index: 999999;
 }
 .flyout .vis-hide {
     overflow: hidden;
@@ -18,7 +17,7 @@
 .flyout .panel-flyout {
     position: fixed;
     bottom: 0;
-    z-index: 300;
+    z-index: 999999;
     width: 220px;
     height: 100%;
     color: #fff;
