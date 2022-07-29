@@ -42,7 +42,7 @@
     position: fixed;
 }
 .flyout .button-toggle {
-    z-index: 999999;
+    z-index: 9999999;
     width: 32px;
     height: 32px;
     background-color: #000;
