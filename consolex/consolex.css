@@ -42,7 +42,7 @@
     position: fixed;
 }
 .flyout .button-toggle {
-    z-index: 400;
+    z-index: 9999999;
     width: 32px;
     height: 32px;
     background-color: #000;
@@ -145,7 +145,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 500;
+    z-index: 9999999;
 }
 .modal__container {
     background-color: #fff;
