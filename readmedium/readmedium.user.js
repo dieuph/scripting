@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            readmedium
+// @name            open with readmedium
 // @namespace       https://github.com/dieuph
 // @description     readmedium
 // @author          dieu
